@@ -142,7 +142,7 @@ connectToDatabase()
 app.use(express.static(path.join(__dirname, "build")));
 // cors
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173',"https://ftrontend.vercel.app" ], // Add your frontend URLs
+  origin: ['http://localhost:3000', 'http://localhost:5173',"https://frontend-neon-five-95.vercel.app/" ], // Add your frontend URLs
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   credentials: false
@@ -198,7 +198,7 @@ app.use(timeout);
 
 // Configure CORS
 app.use(cors({
-  origin: 'https://ftrontend.vercel.app', // Your frontend URL
+  origin: 'https://frontend-neon-five-95.vercel.app/', // Your frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
