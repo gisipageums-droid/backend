@@ -140,12 +140,25 @@ connectToDatabase()
 // Middleware
 // Serve static files from "build"
 app.use(express.static(path.join(__dirname, "build")));
-// cors
+// Unified CORS configuration for multiple origins and credentials
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://frontend-neon-five-95.vercel.app/'
+];
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173',"https://frontend-neon-five-95.vercel.app/" ], // Add your frontend URLs
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  credentials: false
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
 // Configure express with proper types
@@ -196,13 +209,7 @@ const timeout = (
 
 app.use(timeout);
 
-// Configure CORS
-app.use(cors({
-  origin: 'https://frontend-neon-five-95.vercel.app/', // Your frontend URL
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// ...existing code...
 
 // Initialize all Socket.IO event handlers
 socketHandler(io);
